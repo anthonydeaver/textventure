@@ -1,0 +1,31 @@
+{
+	"buttons": [
+		{
+			"id" : "dumpUserBtn",
+			"label" : "Show User",
+			"click" : "user.dumpData",
+			"width" : "80px",
+			"target" : "div#buttonPanel"
+		},
+		{
+			"id" : "logBtn",
+			"label" : "Log",
+			"width" : "80px",
+			"click" : "toggleLog",
+			"target" : "div#buttonPanel"
+		}
+	],
+
+	"panels" : [
+		{
+			"id": "buttonPanel",
+			"class" : "push_5",
+			"border" : "none"
+		},
+		{
+			"id" : "inventory",
+			"class": "grid_2 pull_1",
+			"title" : "Inventory"
+		}
+	]
+}

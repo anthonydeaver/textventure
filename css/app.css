@@ -1,0 +1,46 @@
+div.button {
+	position: relative;
+	text-align: center;
+	border: 1px solid black;
+	width: 100px;
+	height: 25px;
+	margin-bottom: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div.panel {
+	border: 1px solid black;
+}
+
+div.panel h2 {
+	background-color: #ececec;
+	padding-left: 5px;
+	font-size: 18px;
+}
+
+#log {
+	word-wrap: break-word;
+	max-height: 550px;
+	height: 550px;
+	width: 300px;
+	overflow: hidden;
+}
+
+div.panelGradient {
+position: absolute;
+top: 0px;
+left: 0px;
+height: 100%;
+width: 100%;
+background-color: white;
+background: -webkit-linear-gradient( rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100% );
+background: linear-gradient( rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100% );
+filter: alpha( Opacity=0, FinishOpacity=100, Style=1, StartX=0, StartY=0, FinishX=0, FinishY=500 );
+}
