@@ -50,6 +50,7 @@ var Engine = function(config, data) {
 
     $System.toggleLog = function() {
         console.log('toggle');
+        $('#log').toggle();
     }
 
     $System.initialize = function() {
