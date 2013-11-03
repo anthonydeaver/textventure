@@ -1,9 +1,36 @@
 {
+	"views" : [
+		{
+			"name" 			: "console",
+			"displayOrder"	: 1,
+			"panels"		: []
+		},
+		{
+			"id" 			: "something_else",
+			"name" 			: "player",
+			"displayOrder"	: 2,
+			"panels"		: [
+								{
+									"id" : "inventory",
+									"class": "grid_2 pull_1",
+									"title" : "Inventory"
+								},
+								{
+									"id" : "stats",
+									"class": "grid_2 pull_1",
+									"title" : "Stats"
+								}
+
+							  ]
+		}
+
+
+	],
 	"buttons": [
 		{
 			"id" : "dumpUserBtn",
 			"label" : "Show User",
-			"click" : "user.dumpData",
+			"click" : "User.dumpData",
 			"width" : "80px",
 			"target" : "div#buttonPanel"
 		},
@@ -16,7 +43,7 @@
 		}
 	],
 
-	"panels" : [
+	"blocks" : [
 		{
 			"id": "buttonPanel",
 			"class" : "push_5",
