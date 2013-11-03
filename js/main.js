@@ -12,9 +12,9 @@ requirejs.config({
 });
 
 requirejs(['jquery', 'app/Engine', 'app/Layout', 'app/User'],
-	function(engine) {
-		// console.log('engine: ', engine);
-		var game = new Engine();
-    	game.initialize();
+	function() {
+        // For testing comment out the next line
+        // Engine.debug = false;
+        Engine.init();
 	}
 );

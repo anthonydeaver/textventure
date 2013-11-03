@@ -1,47 +1,60 @@
-var Layout = function() {
-	var $Engine;
+var Layout = (function () {
+    'use strict';
+    var _views = [];
 
-    /**
-     * Break-up the config and render the 
-     * @param  {[type]} json
-     * @return {[type]}
-     */
-	function configLayout(json) {
-		$Engine.log('layout JSON loaded');
+    function _parseLayout(json) {
+        Engine.log('layout JSON loaded');
+        var x;
 
-		var x;
+        /**
+         * There are essentially 2|3 types of [...]
+         * _views_: which are containers for [..]
+         * _panels_: at the level they are universal.
+         * 
+         */
+        for (x = 0; x < json.views.length; x++) {
+            //_layout.prototype.createPanel(json.panels[x]);
+            _createView(json.views[x]);
+        };
 
-		// We build panels first since buttons and
-		// text might go inside them
-		for (x = 0; x < json.panels.length; x++) {
-			_layout.prototype.createPanel(json.panels[x]);
-		};
 
-
-		// Draw any default buttons
-		for (x = 0; x < json.buttons.length; x++) {
-			$Engine.createButton(json.buttons[x]);
-		};
-	};
-
-    var _layout = function() {
-        this.initialize.apply(this, arguments);
     };
 
-    // createPanel is here because it's pure layout and doesn't 
-    // depend
-    /**
-     * createPanel creates a simple container div for logs, buttons,
-     * and various other acoutrement. It is pure layout and doesn't
-     * depend on any other classes like button
-     * @param  {Object} config
-     */
-    _layout.prototype.createPanel = function(config) {
-    	console.log()
+    function _createView(config) {
+        // var _id = "VEW_" + Engine.GUID();
+        var that = this;
+        var _id = typeof(config.id) != 'undefined' ? config.id : "VEW_" + Engine.GUID();
+        var nav = $('<div>')
+            .data('location', _id)
+            .addClass('navButton')
+            .addClass((_views.length === 0) ? 'selected' : '')
+            .text(typeof(config.name) != 'undefined' ? config.name  : "")
+            .on('click', function() {
+                $('#viewNav div').removeClass('selected');
+                $(this).addClass('selected');
+                toggleView($(this).data('location'));
+            });
+
+        nav.appendTo('nav#viewNav');
+
+        var view = $('<div>')
+            .attr('id', _id)
+            .addClass('view')
+            .html('<p>' + Engine.GUID() + '</p>');
+        view.appendTo('div#viewSlider');
+
+        // We can only have one view 'active' at a time
+        if(_views.length) { $(view).toggle();}
+
+        _views.push(view);
+
+    }
+
+    function _createPanel(config) {
         var panel = $('<div>')
-            .attr('id', typeof(config.id) != 'undefined' ? config.id : "PNL_")
+            .attr('id', typeof(config.id) != 'undefined' ? config.id : "BLK_")
             .addClass(config.class + ' panel')
-            .html(typeof(config.title) != 'undefined' ? $("<h2>").text(config.title)  : "")
+            .html(typeof(config.title) != 'undefined' ? $("<h2>").text(config.title)  : "");
 
         if(config.width) {
             panel.css('width', config.width);
@@ -52,16 +65,49 @@ var Layout = function() {
         panel.appendTo('div#gameboard');
     };
 
-    /**
-     * store parent and load up the layout info
-     * @param  {Class} parent
-     */
-    _layout.prototype.initialize = function(parent) {
-        $Engine = parent;
-        $Engine.loadData('js/app/resources/layout.json', configLayout);
-        $Engine.log('layout init');
-    };
+    function _createButton(config) {
+        var func = function() { $System.log("click"); },
+        that = $System;
+        if (typeof(config.click) != 'undefined') {
+            var arr = config.click.split('.');
+            if (arr.length > 1) {
+                func = self[arr[0]][arr[1]];
+            } else {
+                func = that[arr[0]];
+            }
+        }
+        var btn = $('<div>')
+            .attr('id', typeof(config.id) != 'undefined' ? config.id : "BTN_")
+            .addClass('grid_1 button')
+            .text(typeof(config.label) != 'undefined' ? config.label : "button")
+            .click(function() { 
+                $(this).data("handler")($(this));
+            })
+            .data("handler",  func );
 
-    return _layout;
-	
-}
+        if(config.width) {
+            btn.css('width', config.width);
+        }
+        btn.appendTo(config.target);
+    }
+
+    function toggleView(locale) {
+        console.log('showing ', locale);
+        $('#viewSlider div.view').each(function() {
+            $(this).hide();
+        });
+
+        $('#viewSlider #' + locale).show();
+    }
+
+
+    function Layout() {
+    }
+
+    Layout.init = function () {
+        console.log('loading');
+        Engine.loadJSON('js/app/resources/layout.json', _parseLayout);
+    }
+
+    return Layout;
+})();

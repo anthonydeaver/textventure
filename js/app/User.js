@@ -1,4 +1,21 @@
-var User = function () {
+var User = (function() {
+    'use strict';
+    var CURRENT_LEVEL = 0,
+        SKILL_SET = [],
+        INVENTORY = [], // What User can pick from
+        ITEMS = [],     // What user is carrying. Emptied when death occurs
+        STATS = { strength: 0, hitpoints: 0, fighting: 0, recovery: 0};
+
+    function configUser(data) {
+        $Engine.log('user data loaded');
+        var s = data.stats;
+        var key;
+        for (key in STATS) {
+            STATS[key] = s[key] || 0;
+        }
+    }
+});
+var User2 = function () {
     'use strict';
     var CURRENT_LEVEL = 0,
         SKILL_SET = [],
