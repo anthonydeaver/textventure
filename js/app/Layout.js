@@ -1,6 +1,11 @@
 var Layout = function() {
 	var $Engine;
 
+    /**
+     * Break-up the config and render the 
+     * @param  {[type]} json
+     * @return {[type]}
+     */
 	function configLayout(json) {
 		$Engine.log('layout JSON loaded');
 
@@ -23,6 +28,14 @@ var Layout = function() {
         this.initialize.apply(this, arguments);
     };
 
+    // createPanel is here because it's pure layout and doesn't 
+    // depend
+    /**
+     * createPanel creates a simple container div for logs, buttons,
+     * and various other acoutrement. It is pure layout and doesn't
+     * depend on any other classes like button
+     * @param  {Object} config
+     */
     _layout.prototype.createPanel = function(config) {
     	console.log()
         var panel = $('<div>')
@@ -39,10 +52,13 @@ var Layout = function() {
         panel.appendTo('div#gameboard');
     };
 
+    /**
+     * store parent and load up the layout info
+     * @param  {Class} parent
+     */
     _layout.prototype.initialize = function(parent) {
         $Engine = parent;
         $Engine.loadData('js/app/resources/layout.json', configLayout);
-        // configLayout();
         $Engine.log('layout init');
     };
 
