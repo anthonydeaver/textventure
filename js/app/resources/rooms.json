@@ -1,0 +1,15 @@
+{
+	"rooms" : {
+		"default": "tavern",
+		"tavern" : {
+			"name" : "Tavern",
+			"desc" : "This is a tavern",
+			"exits" : ["small_field"]
+		},
+		"small_field" : {
+			"name" : "Small Field",
+			"desc" : "You are in a small field filled with giant Sunflowers",
+			"exits" : ["tavern","large_field"]
+		}
+	}
+}

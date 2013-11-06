@@ -5,7 +5,12 @@
         <link rel="stylesheet" href="css/text.css" />
         <link rel="stylesheet" href="css/960.css" />
         <link rel="stylesheet" href="css/app.css" />
-        <script data-main="js/main" src="js/lib/require.js"></script>
+        <!-- <script data-main="js/main" src="js/lib/require.js"></script> -->
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/app/Engine.js"></script>
+        <script src="js/app/Layout.js"></script>
+        <script src="js/app/Rooms.js"></script>
+        <script src="js/app/User.js"></script>
     </head>
     <body>
         <!-- <div class="close">X</div> -->
@@ -19,5 +24,11 @@
                 <div id="viewSlider"></div>
             </div>
         </div>
+
+        <script src="js/extras/User.js"></script>
+        <script>
+            Engine.init();
+            User.dump();
+            </script>
     </body>
 </html>
