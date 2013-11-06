@@ -1,6 +1,7 @@
 var Layout = (function () {
     'use strict';
-    var _views = [];
+    var _views = [],
+        i = 0;
 
     function _parseLayout(json) {
         Engine.log('layout JSON loaded');
@@ -17,11 +18,11 @@ var Layout = (function () {
             _createView(json.views[x]);
         };
 
+        _finalizeLayout();
 
     };
 
     function _createView(config) {
-        // var _id = "VEW_" + Engine.GUID();
         var that = this;
         var _id = typeof(config.id) != 'undefined' ? config.id : "VEW_" + Engine.GUID();
         var nav = $('<div>')
@@ -29,10 +30,17 @@ var Layout = (function () {
             .addClass('navButton')
             .addClass((_views.length === 0) ? 'selected' : '')
             .text(typeof(config.name) != 'undefined' ? config.name  : "")
-            .on('click', function() {
-                $('#viewNav div').removeClass('selected');
-                $(this).addClass('selected');
-                toggleView($(this).data('location'));
+            .on('click', function(e) {
+                    var href = $(e.currentTarget).data('location');
+                console.log('target: ', href);
+
+                    $('#' + href).trigger('activate');
+
+                    e.preventDefault();
+ 
+            //     $('#viewNav div').removeClass('selected');
+            //     $(this).addClass('selected');
+            //     toggleView($(this).data('location'));
             });
 
         nav.appendTo('nav#viewNav');
@@ -41,28 +49,40 @@ var Layout = (function () {
             .attr('id', _id)
             .addClass('view')
             .html('<p>' + Engine.GUID() + '</p>');
+
+            if(!_views.length) { view.addClass('active'); }
+
         view.appendTo('div#viewSlider');
 
         // We can only have one view 'active' at a time
-        if(_views.length) { $(view).toggle();}
+        // if(_views.length) { $(view).toggle();}
 
         _views.push(view);
 
+        // Add panels
+        for (var x = 0; x < config.panels.length; x++) {
+            _createPanel(config.panels[x], _id);
+        };
+
     }
 
-    function _createPanel(config) {
+    function _createPanel(_panel,parent) {
+        console.log('making panel')
+        parent = "#" + parent;
         var panel = $('<div>')
-            .attr('id', typeof(config.id) != 'undefined' ? config.id : "BLK_")
-            .addClass(config.class + ' panel')
-            .html(typeof(config.title) != 'undefined' ? $("<h2>").text(config.title)  : "");
+            .attr('id', typeof(_panel.id) != 'undefined' ? _panel.id : "BLK_")
+            .addClass(_panel.class + ' panel')
+            .html(typeof(_panel.title) != 'undefined' ? $("<h2>").text(_panel.title)  : "");
 
-        if(config.width) {
-            panel.css('width', config.width);
+        if(_panel.width) {
+            panel.css('width', _panel.width);
         }
-        if(config.border) {
-            panel.css('border', config.border);
+        if(_panel.border) {
+            panel.css('border', _panel.border);
+
+            console.log('parent: ', parent);
         }
-        panel.appendTo('div#gameboard');
+        panel.appendTo(parent);
     };
 
     function _createButton(config) {
@@ -91,13 +111,27 @@ var Layout = (function () {
         btn.appendTo(config.target);
     }
 
-    function toggleView(locale) {
-        console.log('showing ', locale);
-        $('#viewSlider div.view').each(function() {
-            $(this).hide();
-        });
+    function _finalizeLayout() {
+        var slides = $('#viewSlider .view');
+        console.log('slide: ', slides);
+        slides.on('activate', function(e) {
+            console.log('setting active');
+            slides.eq(i).removeClass('active');
 
-        $('#viewSlider #' + locale).show();
+            $(e.target).addClass('active');
+
+            // Update the active slide index
+            i = slides.index(e.target);
+        });
+    };
+
+    function toggleView(locale) {
+        // console.log('showing ', locale);
+        // $('#viewSlider div.view').each(function() {
+        //     $(this).hide();
+        // });
+
+        // $('#viewSlider #' + locale).show();
     }
 
 

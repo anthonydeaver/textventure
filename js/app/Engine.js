@@ -30,8 +30,8 @@ var Engine = (function() {
 
     Engine.log = function(str) {
         if (DEBUG) {
-            $( "#log .inner" ).prepend( $('<div>').addClass('logEntry').text(str) );
-       } else {
+       //      $( "#log .inner" ).prepend( $('<div>').addClass('logEntry').text(str) );
+       // } else {
             console.log(str);
         }
     };

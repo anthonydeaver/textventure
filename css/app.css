@@ -1,4 +1,7 @@
-div.button {
+body {
+	padding: 10px;
+}
+div.button, div.navButton {
 	position: relative;
 	text-align: center;
 	border: 1px solid black;
@@ -15,6 +18,11 @@ div.button {
 	user-select: none;
 }
 
+div.navButton {
+	float: left;
+	margin-right: 10px;
+}
+
 div.panel {
 	border: 1px solid black;
 }
@@ -28,7 +36,7 @@ div.panel h2 {
 #log {
 	word-wrap: break-word;
 	max-height: 550px;
-	height: 550px;
+	height: 100%;
 	width: 300px;
 	overflow: hidden;
 	z-index: 1000;
@@ -46,8 +54,24 @@ div.panelGradient {
 	filter: alpha( Opacity=0, FinishOpacity=100, Style=1, StartX=0, StartY=0, FinishX=0, FinishY=500 );
 }
 
+#viewSlider {
+	width: 100%;
+	overflow: hidden;
+}
+#other {
+	border: none !important;
+}
+
 .view {
-	border: 1px solid red;
+	/*border: 1px solid red;*/
+	float: left;
+	position: relative;
+	width: 100%;
+	left: 100%;
+}
+
+.view.active {
+	left: 0;
 }
 
 .navButton.selected {
@@ -64,3 +88,9 @@ div.panelGradient {
 	position: relative;
 	right: 3px;
 }
+
+/* test */
+.view{left:-100%;height:0;overflow:hidden;z-index:1;-webkit-transition-property:left,height;-moz-transition-property:left,height;-ms-transition-property:left,height;-o-transition-property:left,height;transition-property:left,height;-webkit-transition-duration:333ms;-moz-transition-duration:333ms;-ms-transition-duration:333ms;-o-transition-duration:333ms;transition-duration:333ms;-webkit-transition-timing-function:cubic-bezier(0.1,0.7,0.7,1);-moz-transition-timing-function:cubic-bezier(0.1,0.7,0.7,1);-ms-transition-timing-function:cubic-bezier(0.1,0.7,0.7,1);-o-transition-timing-function:cubic-bezier(0.1,0.7,0.7,1);transition-timing-function:cubic-bezier(0.1,0.7,0.7,1);-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
+.view.active{left:0;height:auto;overflow:visible;z-index:2}
+.view.active ~ .view{left:100%}
+.view.active ~ .view.active{left:0}
