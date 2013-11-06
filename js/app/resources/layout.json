@@ -1,11 +1,28 @@
 {
+	"layout" : {
+		"nav":"other",
+		"containers" :[
+			{
+				"id":"log",
+				"class":"grid_4 panel",
+				"title":"Log",
+				"html":"<span class='inner'></span>"
+			},
+			{
+				"id":"other",
+				"class":"grid_10 panel"
+			}
+		]
+	},
 	"views" : [
 		{
+			"id" 			: "console",
 			"name" 			: "console",
+			"parent"		: "other",
 			"displayOrder"	: 1,
 			"panels"		: [
 								{
-									"id": "buttonPanel",
+									"id": "navButtonPanel",
 									"class" : "push_5",
 									"border" : "none"
 								}
@@ -31,6 +48,7 @@
 		{
 			"id" 			: "something_else",
 			"name" 			: "player",
+			"parent"		: "other",
 			"displayOrder"	: 2,
 			"panels"		: [
 								{
@@ -42,6 +60,12 @@
 									"id" : "stats",
 									"class": "grid_2",
 									"title" : "Stats"
+								},
+								{
+									"id" : "skills",
+									"class": "grid_2",
+									"title" : "Skills",
+									"onSelect":"User.activateSkill"
 								}
 
 							  ]

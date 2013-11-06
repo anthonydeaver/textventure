@@ -3,19 +3,18 @@ var Layout = (function () {
     var _views = [],
         i = 0;
 
+
     function _parseLayout(json) {
         Engine.log('layout JSON loaded');
-        var x;
+        var x,
+            // THis is the default layout structure. Probably overkill but it's fun :)
+            // // Not used yet.
+            layouts = json.layouts,
+            views = json.views;
 
-        /**
-         * There are essentially 2|3 types of [...]
-         * _views_: which are containers for [..]
-         * _panels_: at the level they are universal.
-         * 
-         */
-        for (x = 0; x < json.views.length; x++) {
+        for (x = 0; x < views.length; x++) {
             //_layout.prototype.createPanel(json.panels[x]);
-            _createView(json.views[x]);
+            _createView(views[x]);
         };
 
         _finalizeLayout();
@@ -31,24 +30,19 @@ var Layout = (function () {
             .addClass((_views.length === 0) ? 'selected' : '')
             .text(typeof(config.name) != 'undefined' ? config.name  : "")
             .on('click', function(e) {
-                    var href = $(e.currentTarget).data('location');
-                console.log('target: ', href);
-
-                    $('#' + href).trigger('activate');
-
-                    e.preventDefault();
+                var href = $(e.currentTarget).data('location');
+                $('#' + href).trigger('activate');
+                e.preventDefault();
  
-            //     $('#viewNav div').removeClass('selected');
-            //     $(this).addClass('selected');
-            //     toggleView($(this).data('location'));
+                $('#viewNav div').removeClass('selected');
+                $(this).addClass('selected');
             });
 
         nav.appendTo('nav#viewNav');
 
         var view = $('<div>')
             .attr('id', _id)
-            .addClass('view')
-            .html('<p>' + Engine.GUID() + '</p>');
+            .addClass('view');
 
             if(!_views.length) { view.addClass('active'); }
 
@@ -112,6 +106,10 @@ var Layout = (function () {
     }
 
     function _finalizeLayout() {
+
+
+        $('<div>').addClass('locator').html('<h2>Location: <span></span></h2>').prependTo("#" + Engine.console);
+
         var slides = $('#viewSlider .view');
         console.log('slide: ', slides);
         slides.on('activate', function(e) {
@@ -125,20 +123,9 @@ var Layout = (function () {
         });
     };
 
-    function toggleView(locale) {
-        // console.log('showing ', locale);
-        // $('#viewSlider div.view').each(function() {
-        //     $(this).hide();
-        // });
+    function Layout() {};
 
-        // $('#viewSlider #' + locale).show();
-    }
-
-
-    function Layout() {
-    }
-
-    Layout.init = function () {
+    Layout.initialize = function () {
         console.log('loading');
         Engine.loadJSON('js/app/resources/layout.json', _parseLayout);
     }
