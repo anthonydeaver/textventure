@@ -3,7 +3,30 @@
 		{
 			"name" 			: "console",
 			"displayOrder"	: 1,
-			"panels"		: []
+			"panels"		: [
+								{
+									"id": "buttonPanel",
+									"class" : "push_5",
+									"border" : "none"
+								}
+
+							  ],
+			"buttons": [
+				{
+					"id" : "dumpUserBtn",
+					"label" : "Show User",
+					"click" : "User.dumpData",
+					"width" : "80px",
+					"target" : "buttonPanel"
+				},
+				{
+					"id" : "logBtn",
+					"label" : "Log",
+					"width" : "80px",
+					"click" : "toggleLog",
+					"target" : "buttonPanel"
+				}
+			]
 		},
 		{
 			"id" 			: "something_else",
@@ -12,12 +35,12 @@
 			"panels"		: [
 								{
 									"id" : "inventory",
-									"class": "grid_2 pull_1",
+									"class": "grid_2",
 									"title" : "Inventory"
 								},
 								{
 									"id" : "stats",
-									"class": "grid_2 pull_1",
+									"class": "grid_2",
 									"title" : "Stats"
 								}
 
@@ -25,34 +48,5 @@
 		}
 
 
-	],
-	"buttons": [
-		{
-			"id" : "dumpUserBtn",
-			"label" : "Show User",
-			"click" : "User.dumpData",
-			"width" : "80px",
-			"target" : "div#buttonPanel"
-		},
-		{
-			"id" : "logBtn",
-			"label" : "Log",
-			"width" : "80px",
-			"click" : "toggleLog",
-			"target" : "div#buttonPanel"
-		}
-	],
-
-	"blocks" : [
-		{
-			"id": "buttonPanel",
-			"class" : "push_5",
-			"border" : "none"
-		},
-		{
-			"id" : "inventory",
-			"class": "grid_2 pull_1",
-			"title" : "Inventory"
-		}
 	]
 }
