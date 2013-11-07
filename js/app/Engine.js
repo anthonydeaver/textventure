@@ -101,7 +101,8 @@ var Engine = (function() {
     }
 
     Engine.setLocation = function(location) {
-        $('.locator span').text(location);
+        $('.locator span').text(location.name);
+        User.currentLocation = location;
     }
 
     // Getters and Setters

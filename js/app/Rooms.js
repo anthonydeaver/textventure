@@ -16,12 +16,10 @@ var Rooms = (function(parent) {
     };
 
     Rooms.loadRoom = function(rm) {
-    	// $("#" + Engine.navPanel).html('');
     	$('.locator #exits .button').remove();
         var room = _rooms[rm];
-    	console.log('loading room: ', room);
-        Engine.setLocation(room.name);
-        $( "#log .inner" ).prepend( $('<div>').addClass('logEntry').text(room.desc) );
+        Engine.setLocation(room);
+        $( "#log .inner" ).prepend( $('<div>').addClass('roomEntry').text(room.desc) );
         for (var x = 0; x < room.exits.length; x++) {
             var exit = _rooms[room.exits[x]];
             var btn = $('<div>')
@@ -34,8 +32,12 @@ var Rooms = (function(parent) {
 	                Rooms.loadRoom(id);
 	            })
 	            .data("ident",  exit.id );
-            console.log('exit: ', exit.name);
             btn.appendTo("#exits");
+        }
+
+        if (room.hasMonster) {
+        	var monsterGen = Math.floor(Math.random() * (100 + 1));
+        	// if()
         }
     };
 

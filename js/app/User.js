@@ -8,7 +8,8 @@ var User = (function() {
         // These are default stats. They can bee modified by calling addStat()
         STATS = { strength: 0, fighting: 0, recovery: 0},
         // There are no default skills. They can be modified by calling addSkill()
-        SKILLS = {};
+        SKILLS = {},
+        LOCATION = {};
 
     function configUser(data) {
         Engine.log('user data loaded');
@@ -23,6 +24,16 @@ var User = (function() {
         // this.initialize.apply(this, arguments);
     };
 
+    Object.defineProperty(Engine, "currentLocation", {
+        set: function (x) {
+            LOCATION = x;
+        },
+        get: function () {
+            return LOCATION;
+        },
+        enumerable: true,
+        configurable: true
+    });
     User.addSkill = function(skill, rating) {
         Engine.assert(rating,'A skill must be rated to be valid');
         SKILLS[skill] = rating;
