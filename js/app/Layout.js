@@ -55,17 +55,18 @@ var Layout = (function () {
 
         // Add panels
         for (var x = 0; x < config.panels.length; x++) {
-            _createPanel(config.panels[x], _id);
+            _createPanel(config.panels[x], '#' + _id);
         };
 
     }
 
     function _createPanel(_panel,parent) {
         console.log('making panel')
-        parent = "#" + parent;
+        // parent = "#" + parent;
         var panel = $('<div>')
             .attr('id', typeof(_panel.id) != 'undefined' ? _panel.id : "BLK_")
-            .addClass(_panel.class + ' panel')
+            .addClass((_panel.class) ? _panel.class : '')
+            .addClass('panel')
             .html(typeof(_panel.title) != 'undefined' ? $("<h2>").text(_panel.title)  : "");
 
         if(_panel.width) {
@@ -92,7 +93,7 @@ var Layout = (function () {
         }
         var btn = $('<div>')
             .attr('id', typeof(config.id) != 'undefined' ? config.id : "BTN_")
-            .addClass('grid_1 button')
+            .addClass('button')
             .text(typeof(config.label) != 'undefined' ? config.label : "button")
             .click(function() { 
                 $(this).data("handler")($(this));
@@ -107,8 +108,9 @@ var Layout = (function () {
 
     function _finalizeLayout() {
 
-
         $('<div>').addClass('locator').html('<h2>Location: <span></span></h2>').prependTo("#" + Engine.console);
+        _createPanel({id: 'exits', title: 'Exits'},'.locator');
+        _createPanel({id: 'actions', title: 'Actions'},'.locator');
 
         var slides = $('#viewSlider .view');
         console.log('slide: ', slides);
@@ -121,6 +123,8 @@ var Layout = (function () {
             // Update the active slide index
             i = slides.index(e.target);
         });
+
+        Rooms.initialize();
     };
 
     function Layout() {};

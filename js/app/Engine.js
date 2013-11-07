@@ -6,11 +6,11 @@ var Engine = (function() {
 
     function parseConfig(json) {
 
-        Engine.assert(json.defaultConsole,'A default Console must be defined');
-        _console = json.defaultConsole;
+        Engine.assert(json.console,'A default Console must be defined');
+        _console = json.console;
 
-        Engine.assert(json.navPanel,'A navPanel must be defined');
-        _navPanel = json.navPanel;
+        Engine.assert(json.locations,'A locations panel must be defined');
+        _navPanel = json.locations;
 
         if (!User) {
             throw new Error('Unable to locate User class');
@@ -22,7 +22,7 @@ var Engine = (function() {
 
         User.initialize();
         Layout.initialize();
-        Rooms.initialize();
+        // Rooms.initialize();
 
     }
 

@@ -16,16 +16,26 @@ var Rooms = (function(parent) {
     };
 
     Rooms.loadRoom = function(rm) {
+    	// $("#" + Engine.navPanel).html('');
+    	$('.locator #exits .button').remove();
         var room = _rooms[rm];
-        Engine.setLocation(rm);
+    	console.log('loading room: ', room);
+        Engine.setLocation(room.name);
         $( "#log .inner" ).prepend( $('<div>').addClass('logEntry').text(room.desc) );
         for (var x = 0; x < room.exits.length; x++) {
             var exit = _rooms[room.exits[x]];
             var btn = $('<div>')
-                .addClass('grid_1 button')
-                .text(exit.name);
+                .addClass('button')
+                .attr('id',exit.id)
+                .text(exit.name)
+                .click(function() { 
+                	// Rooms.loadRoom(exit.id);
+	                var id = $(this).data("ident");
+	                Rooms.loadRoom(id);
+	            })
+	            .data("ident",  exit.id );
             console.log('exit: ', exit.name);
-            btn.appendTo("#" + Engine.navPanel);
+            btn.appendTo("#exits");
         }
     };
 
