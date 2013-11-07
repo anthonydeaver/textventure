@@ -22,8 +22,7 @@
 			"displayOrder"	: 1,
 			"panels"		: [
 								{
-									"id": "navButtonPanel",
-									"class" : "push_5",
+									"id": "locationsPanel",
 									"border" : "none"
 								}
 

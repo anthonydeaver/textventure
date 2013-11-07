@@ -94,3 +94,13 @@ div.panelGradient {
 .view.active{left:0;height:auto;overflow:visible;z-index:2}
 .view.active ~ .view{left:100%}
 .view.active ~ .view.active{left:0}
+
+/* split */
+.locator .panel {
+	width: 40%;
+	float: left;
+	margin-right: 5px;
+}
+.locator .panel .button {
+	margin-left: 5px;
+}

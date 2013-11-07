@@ -1,6 +1,6 @@
 {
 	"gameTitle" : "TXTVENTURE Test Dungeon",
-	"defaultConsole": "console",
-	"navPanel" : "navButtonPanel"
+	"console": "console",
+	"locations" : "locationsPanel"
 
 }

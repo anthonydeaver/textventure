@@ -2,14 +2,22 @@
 	"rooms" : {
 		"default": "tavern",
 		"tavern" : {
+			"id" : "tavern",
 			"name" : "Tavern",
 			"desc" : "This is a tavern",
 			"exits" : ["small_field"]
 		},
 		"small_field" : {
+			"id" : "small_field",
 			"name" : "Small Field",
 			"desc" : "You are in a small field filled with giant Sunflowers",
 			"exits" : ["tavern","large_field"]
+		},
+		"large_field" : {
+			"id" : "large_field",
+			"name" : "Large Field",
+			"desc" : "You are in a large field filled with grass",
+			"exits" : ["small_field"]
 		}
 	}
 }
