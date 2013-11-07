@@ -17,7 +17,8 @@
 			"id" : "large_field",
 			"name" : "Large Field",
 			"desc" : "You are in a large field filled with grass",
-			"exits" : ["small_field"]
+			"exits" : ["small_field"],
+			"hasMonster" : 0.3
 		}
 	}
 }
