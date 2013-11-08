@@ -5,7 +5,8 @@
 			"id" : "tavern",
 			"name" : "Tavern",
 			"desc" : "This is a tavern",
-			"exits" : ["small_field"]
+			"exits" : ["small_field"],
+			"actions": ["examine"]
 		},
 		"small_field" : {
 			"id" : "small_field",

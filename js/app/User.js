@@ -9,6 +9,7 @@ var User = (function() {
         STATS = { strength: 0, fighting: 0, recovery: 0},
         // There are no default skills. They can be modified by calling addSkill()
         SKILLS = {},
+        WEAPONS = {},
         LOCATION = {};
 
     function configUser(data) {
