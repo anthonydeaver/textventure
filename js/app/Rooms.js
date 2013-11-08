@@ -37,10 +37,8 @@ var Rooms = (function(parent) {
         }
 
         if (room.hasMonster) {
-            console.log('possible monster');
-        	var getMonster = Math.floor(Math.random() * (100 + 1));
-        	if( getMonster <= (room.hasMonster * 100)) {
-                console.log('we have a monster!');
+        	if( Math.random() < room.hasMonster) {
+                Events.triggerEvent();
             }
         }
     };

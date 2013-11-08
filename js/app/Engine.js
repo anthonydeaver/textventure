@@ -105,6 +105,7 @@ var Engine = (function() {
         User.currentLocation = location;
     }
 
+    /*
     // Getters and Setters
     Engine.prototype.getConfig = function(attr) {
         return _defaults[config[attr]];
@@ -125,6 +126,7 @@ var Engine = (function() {
         }
         return false;
     };
+    */
 
     // Utility functions
     Engine.loadJSON = function(path, callback) {
