@@ -19,13 +19,15 @@ var User = (function() {
         for (key in STATS) {
             STATS[key] = s[key] || 0;
         }
+
+        CURRENT_LEVEL = 1;
     }
 
     var User = function() {
         // this.initialize.apply(this, arguments);
     };
 
-    Object.defineProperty(Engine, "currentLocation", {
+    Object.defineProperty(User, "currentLocation", {
         set: function (x) {
             LOCATION = x;
         },
@@ -35,6 +37,18 @@ var User = (function() {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(User, "level", {
+       get: function () {
+            return CURRENT_LEVEL;
+        },
+        enumerable: true,
+        configurable: true
+    });
+
+    User.hasItem = function(item) {
+        return true;
+    }
+
     User.addSkill = function(skill, rating) {
         Engine.assert(rating,'A skill must be rated to be valid');
         SKILLS[skill] = rating;

@@ -11,7 +11,7 @@ var Events = (function() {
 	}
 
 	Events.startEvent = function() {
-		$('<div>').addClass('eventTitle').html($('<h2>').text('Event')).appendTo(_eventPanel);
+		$('<div>').addClass('title').html($('<h2>').text('Event')).appendTo(_eventPanel);
 		$('<div>').attr('id', 'description').appendTo(_eventPanel);
 		$('<div>').attr('id', 'buttons').appendTo(_eventPanel);
 		// Events.loadScene('start');

@@ -15,14 +15,22 @@ var Rooms = (function(parent) {
     };
 
     Rooms.loadRoom = function(rm) {
-        $('.locator #exits .button').remove();
         var room = _rooms[rm],
             x,
             getMonster;
+
+        if(room.locked) { 
+        	console.log("That room is locked. You need to " + room.lockedReqs + " to access it.");
+        	return;
+        }
+        $('.locator #exits .button').remove();
         Engine.setLocation(room);
         $("#log .inner").prepend($('<div>').addClass('roomEntry').text(room.desc));
         for (x = 0; x < room.exits.length; x++) {
             var exit = _rooms[room.exits[x]];
+            if(exit.hidden) {
+            	if (!User.hasItem(exit.reqs)) { continue; }
+            }
             var btn = $('<div>')
                 .addClass('button')
                 .attr('id',exit.id)

@@ -5,8 +5,24 @@
 			"id" : "tavern",
 			"name" : "Tavern",
 			"desc" : "This is a tavern",
-			"exits" : ["small_field"],
+			"exits" : ["small_field", "store_room", "secret_lair"],
 			"actions": ["examine"]
+		},
+		"store_room" : {
+			"id": "store_room",
+			"name" : "Store Room",
+			"desc" : "A small room filled with stuff",
+			"exits" : ["tavern"],
+			"locked" : true,
+			"lockedReqs" : "Golden Key"
+		},
+		"secret_lair" : {
+			"id": "secret_lair",
+			"name" : "Secret Lair",
+			"desc" : "A hidden room filled with stuff",
+			"exits" : ["tavern"],
+			"hidden" : true,
+			"reqs" : "eye_of_holding"
 		},
 		"small_field" : {
 			"id" : "small_field",
