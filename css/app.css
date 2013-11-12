@@ -36,7 +36,7 @@ div.panel {
 	border: 1px solid black;
 }
 
-div.panel h2, .eventTitle h2 {
+div.panel h2, #event .title h2 {
 	background-color: #ececec;
 	padding-left: 5px;
 	font-size: 18px;
@@ -97,24 +97,6 @@ div.panelGradient {
 	box-shadow: 5px 5px 5px #666666;
 	z-index: -2;
 }
-
-.eventTitle {
-/*display: inline-block;*/
-font-weight: bold;
-/*position: absolute;*/
-/*top: -12px;*/
-}
-
-/*.eventTitle:after {
-background-color: white;
-bottom: 32%;
-content: " ";
-height: 5px;
-left: 0;
-position: absolute;
-width: 100%;
-z-index: -1;
-}*/
 
 
 #viewSlider {

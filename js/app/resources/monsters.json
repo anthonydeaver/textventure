@@ -1,5 +1,7 @@
 {
 	"monsters": [
-		{"name" : "Giant Spider"}
+		{
+			"name" : "Giant Spider"
+		}
 	]
 }
