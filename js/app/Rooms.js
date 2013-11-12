@@ -1,4 +1,4 @@
-var Rooms = (function(parent) {
+var Rooms = (function() {
     'use strict';
     var _default = '',
         _rooms,
@@ -8,6 +8,7 @@ var Rooms = (function(parent) {
         _rooms = json.rooms;
         _default = _rooms.start;
         Rooms.loadRoom(_default);
+        User.travelTo(_rooms[_default]);
     }
 
     Rooms.initialize = function() {
@@ -16,37 +17,38 @@ var Rooms = (function(parent) {
 
     Rooms.loadRoom = function(rm) {
         var room = _rooms[rm],
-            x,
-            getMonster;
+            x;
 
-        if(room.locked) { 
-        	console.log("That room is locked. You need to " + room.lockedReqs + " to access it.");
-        	return;
+        if (room.locked) {
+            Engine.popup({title: 'Locked Room', msg: "That room is locked. You need to " + room.lockedReqs + " to access it."});
+            return;
         }
         $('.locator #exits .button').remove();
         Engine.setLocation(room);
-        $("#log .inner").prepend($('<div>').addClass('roomEntry').text(room.desc));
+        $("#terminal .desc").html($('<div>').addClass('roomEntry').text(room.desc));
         for (x = 0; x < room.exits.length; x++) {
             var exit = _rooms[room.exits[x]];
-            if(exit.hidden) {
-            	if (!User.hasItem(exit.reqs)) { continue; }
+            if (exit.hidden) {
+                if (!User.hasItem(exit.reqs)) { continue; }
             }
             var btn = $('<div>')
                 .addClass('button')
-                .attr('id',exit.id)
+                .attr('id', exit.id)
                 .text(exit.name)
-                .click(function() { 
-                	// Rooms.loadRoom(exit.id);
-	                var id = $(this).data("ident");
-	                Rooms.loadRoom(id);
-	            })
-	            .data("ident",  exit.id );
+                .click(function() {
+                    // Rooms.loadRoom(exit.id);
+                    var id = $(this).data("ident");
+                    Rooms.loadRoom(id);
+                })
+                .data("ident",  exit.id);
             btn.appendTo("#exits");
         }
 
+        $("#exits .button").last().css( "margin", "0px" );
+
         if (room.hasMonster) {
-        	if( Math.random() < room.hasMonster) {
-                Events.triggerEvent();
+            if (Math.random() < room.hasMonster) {
+                Events.triggerEvent({type: 'combat',enemy: room.monsters});
             }
         }
     };

@@ -1,7 +1,24 @@
 {
-	"monsters": [
-		{
-			"name" : "Giant Spider"
+	"monsters": {
+		"goblin": {
+			"name" : "Goblin",
+			"loot" : "eye_of_holding",
+			"hp" : 10,
+			"strength":15,
+			"skill" : 10,
+			"level" : 1,
+			"speed" : 4,
+			"msg" : "A Goblin appears from behind a stand of trees"
+		},
+		"wolf": {
+			"name" : "Wolf",
+			"loot" : [{"coins": "10"}],
+			"hp" : 10,
+			"strength":15,
+			"skill" : 10,
+			"level" : 1,
+			"speed": 2,
+			"msg" : "A Wolf stands before you, it's lips curled in a snarl."
 		}
-	]
+	}
 }

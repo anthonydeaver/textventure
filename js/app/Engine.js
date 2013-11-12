@@ -2,14 +2,16 @@ var Engine = (function() {
     'use strict';
     var DEBUG = true,
         _console,
-        _navPanel;
+        _navPanel,
+        _modalPanel = $('<div>').attr('id', 'modal').addClass('eventPanel').css('opacity', '0'),
+        _terminal = $('#terminal');
 
     function parseConfig(json) {
 
-        Engine.assert(json.console,'A default Console must be defined');
+        Engine.assert(json.console, 'A default Console must be defined');
         _console = json.console;
 
-        Engine.assert(json.locations,'A locations panel must be defined');
+        Engine.assert(json.locations, 'A locations panel must be defined');
         _navPanel = json.locations;
 
         if (!User) {
@@ -20,23 +22,19 @@ var Engine = (function() {
             $(this).closest('.panel').hide();
         });
 
+        $('<div>').addClass('title').appendTo(_modalPanel); 
+        $('<div>').attr('id', 'message').appendTo(_modalPanel);
+        $('<div>').attr('id', 'buttons').appendTo(_modalPanel);
+ 
+
         User.initialize();
         Layout.initialize();
+        Monsters.initialize();
         // Rooms.initialize();
 
     }
 
-    function Engine(app) {
-        var _defaults = {
-                vars : {
-                    squirrel: { value : 'nutPicker', muteable: true},
-                    coconut: { value : 'treenut', muteable: false}
-                }
-            },
-            self = {};
-
-        this.initialize.apply(this.arguments);
-    }
+    function Engine() {}
 
     // getter / setter for debug
     Object.defineProperty(Engine, "debug", {
@@ -66,6 +64,11 @@ var Engine = (function() {
         configurable: true
     });
 
+
+
+    Engine.activeModal = function() {
+        return _modalPanel;
+    }
     Engine.log = function(str) {
         if (DEBUG) {
             console.log('[TXTVENTURE]: ' + str);
@@ -74,64 +77,83 @@ var Engine = (function() {
 
     // Generates and returns a guid
     Engine.GUID = function() {
-        var d = Date.now();
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = (d + Math.random()*16)%16 | 0;
-            d = Math.floor(d/16);
-            return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-        });
+        var d = Date.now(),
+            uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c === 'x' ? r : (r&0x7|0x8)).toString(16);
+            });
         return uuid;
     };
 
     Engine.assert = function(test, message) {
         if (test) {
-                return;
+            return;
         }
         throw new Error("[TXTVENTURE] " + message);
-    };    
+    };
 
     Engine.init = function() {
 
         Engine.loadJSON('js/app/resources/app.json', parseConfig);
-    }
+    };
 
 
     Engine.alert = function(msg) {
-        Engine.log(msg);
+        Engine.modal({title: 'Alert',msg: msg });
+    };
+
+    Engine.popup = function(obj) {
+        obj.buttons = [
+            {label: 'Yes'},
+            {label: 'No'}
+        ];
+
+        Engine.modal(obj);
+    };
+
+    Engine.modal = function(obj) {
+       $('#gameboard').append(_modalPanel);
+
+        $('.title', _modalPanel).empty();
+        $('#message', _modalPanel).empty();
+        $('#buttons', _modalPanel).empty();
+
+        var title = $('.title', _modalPanel);
+        var desc = $('#message', _modalPanel);
+        var btns = $('#buttons', _modalPanel);
+
+        $('<h2>').text(obj.title).appendTo(title);
+        $('<p>').html(obj.msg).appendTo(desc);
+
+        _modalPanel.animate({opacity: 1}, 200, 'linear');
+
+        if(obj.buttons) {
+            var buttons = obj.buttons;
+            for (var i in buttons) {
+                Layout.button(buttons[i]).appendTo(btns);
+            }
+        } else {
+            Layout.button({ label: 'OK', click: function() {  Engine.closeModal(); } }).appendTo(btns);
+        }
+
+    };
+
+    Engine.closeModal = function() {
+        // _modalPanel = _modalPanel;
+        _modalPanel.animate({opacity: 0}, 200, 'linear');
+        _modalPanel.remove();
+        // _modalPanel = null;
     }
 
     Engine.setLocation = function(location) {
-        $('.locator span').text(location.name);
-        User.currentLocation = location;
-    }
-
-    /*
-    // Getters and Setters
-    Engine.prototype.getConfig = function(attr) {
-        return _defaults[config[attr]];
+        $('#terminal h2').text(location.name);
+        User.travelTo(location);
     };
-
-    // Generic: Values must exist in _defaults.vars and be muteable
-    Engine.prototype.get = function(str) {
-        str = str.toLowerCase();
-        if (_defaults.vars[str] !== undefined) { return _defaults.vars[str].value; }
-        return false;
-    };
-
-    Engine.prototype.set = function(attr, val) {
-        attr = attr.toLowerCase();
-        if (_defaults.vars[attr] !== undefined && _defaults.vars[attr].muteable) {
-            _defaults.vars[attr].value = val;
-            return true;
-        }
-        return false;
-    };
-    */
 
     // Utility functions
     Engine.loadJSON = function(path, callback) {
-        var httpRequest = new XMLHttpRequest(),
-            that = this;
+        var httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function() {
             if (httpRequest.readyState === 4) {
                 if (httpRequest.status === 200) {

@@ -4,13 +4,13 @@
 		"containers" :[
 			{
 				"id":"log",
-				"class":"grid_4 panel",
+				"class":"grid_16 panel",
 				"title":"Log",
 				"html":"<span class='inner'></span>"
 			},
 			{
 				"id":"other",
-				"class":"grid_10 panel"
+				"class":"grid_16 panel"
 			}
 		]
 	},
