@@ -80,35 +80,9 @@ var Layout = (function () {
         panel.appendTo(parent);
     };
 
-    function _createButton(config) {
-        var func = function() { $System.log("click"); },
-        that = $System;
-        if (typeof(config.click) != 'undefined') {
-            var arr = config.click.split('.');
-            if (arr.length > 1) {
-                func = self[arr[0]][arr[1]];
-            } else {
-                func = that[arr[0]];
-            }
-        }
-        var btn = $('<div>')
-            .attr('id', typeof(config.id) != 'undefined' ? config.id : "BTN_")
-            .addClass('button')
-            .text(typeof(config.label) != 'undefined' ? config.label : "button")
-            .click(function() { 
-                $(this).data("handler")($(this));
-            })
-            .data("handler",  func );
-
-        if(config.width) {
-            btn.css('width', config.width);
-        }
-        btn.appendTo(config.target);
-    }
-
     function _finalizeLayout() {
 
-        $('<div>').addClass('locator').html('<h2>Location: <span></span></h2>').prependTo("#" + Engine.console);
+        $('<div>').addClass('locator').prependTo("#" + Engine.console);
         _createPanel({id: 'exits', title: 'Exits'},'.locator');
         _createPanel({id: 'actions', title: 'Actions'},'.locator');
 
@@ -132,6 +106,56 @@ var Layout = (function () {
     Layout.initialize = function () {
         console.log('loading');
         Engine.loadJSON('js/app/resources/layout.json', _parseLayout);
+    }
+
+
+    Layout.addButtons = function(buttons) {
+        var btns,
+            func = function() { Engine.log("click"); };
+
+        for(var id in buttons) {
+            var config = buttons[id];
+
+             btns = $('#buttons', config.parent);
+
+            if (typeof(config.click) != 'undefined') {
+                func = config.click
+            }
+
+            var btn = $('<div>')
+                .attr('id', typeof(config.id) != 'undefined' ? config.id : "BTN_" + Engine.GUID())
+                .addClass('button')
+                .text(typeof(config.label) != 'undefined' ? config.label : "button")
+                .click(function() { 
+                    $(this).data("handler")($(this));
+                })
+                .data("handler",  func ).appendTo(btns);
+        }
+    }
+
+    Layout.button = function(button) {
+        var func = function() { Engine.log("click"); };
+
+        if (typeof(button.click) != 'undefined') {
+            func = button.click;
+        }
+
+        var btn = $('<div>')
+            .attr('id', typeof(button.id) != 'undefined' ? button.id : "BTN_" + Engine.GUID())
+            .addClass('button')
+            .text(typeof(button.label) != 'undefined' ? button.label : "button")
+            .click(function() { 
+                $(this).data("handler")($(this));
+            })
+            .data("handler",  func );
+
+        if(button.options) {
+            var ops = button.options;
+            for (var id in ops) {
+                btn.data(id, ops[id]);
+            } 
+        }
+        return btn;
     }
 
     return Layout;

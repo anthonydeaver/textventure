@@ -5,12 +5,14 @@ var User = (function() {
         SKILL_SET = [], // Skills a User has acquired
         INVENTORY = [], // What User can pick from
         ITEMS = [],     // What user is carrying. Emptied when death occurs
-        // These are default stats. They can bee modified by calling addStat()
+        // These are default stats. They can be modified by calling addStat()
         STATS = { strength: 0, fighting: 0, recovery: 0},
         // There are no default skills. They can be modified by calling addSkill()
         SKILLS = {},
         WEAPONS = {},
-        LOCATION = {};
+        LOCATION = {},
+        PLACES = [],
+        CURRENT_LOCATION = null;
 
     function configUser(data) {
         Engine.log('user data loaded');
@@ -27,16 +29,16 @@ var User = (function() {
         // this.initialize.apply(this, arguments);
     };
 
-    Object.defineProperty(User, "currentLocation", {
-        set: function (x) {
-            LOCATION = x;
-        },
+    User.name = "You";
+
+    Object.defineProperty(User, "hp", {
         get: function () {
-            return LOCATION;
+            return HIT_POINTS;
         },
         enumerable: true,
         configurable: true
     });
+
     Object.defineProperty(User, "level", {
        get: function () {
             return CURRENT_LEVEL;
@@ -45,9 +47,22 @@ var User = (function() {
         configurable: true
     });
 
+    // Object.defineProperty(User, "name", {
+    //    get: function () {
+    //         return "You";
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
+
     User.hasItem = function(item) {
         return true;
-    }
+    };
+
+    User.travelTo = function(location) {
+        if(CURRENT_LOCATION !== null) { PLACES.push(CURRENT_LOCATION); }
+        CURRENT_LOCATION = location;
+    };
 
     User.addSkill = function(skill, rating) {
         Engine.assert(rating,'A skill must be rated to be valid');
@@ -56,6 +71,10 @@ var User = (function() {
     User.aquireSkill = function(skill) {
         Engine.assert(skill,'A skill must be defined to be added');
         SKILL_SET.push(skill);
+    };
+
+    User.getSkills = function() {
+        return SKILL_SET;
     };
 
     User.takeDamage = function(damage) {
@@ -69,10 +88,6 @@ var User = (function() {
         Engine.alert('You died.');
     };
 
-    User.getSkills = function() {
-        return SKILL_SET;
-    };
-
     User.killUser = function() {
         ITEMS = [];
     };
@@ -80,6 +95,10 @@ var User = (function() {
     User.dump = function(skill) {
         Engine.log('stats: '+ JSON.stringify(STATS));
         Engine.log('skills: '+ JSON.stringify(SKILLS));
+        Engine.log('places: ' + JSON.stringify(PLACES));
+        Engine.log('current: ' + CURRENT_LOCATION);
+        Engine.log('User: ' + JSON.stringify(this));
+
     };
 
     User.initialize = function() {
