@@ -61,8 +61,6 @@ var Layout = (function () {
     }
 
     function _createPanel(_panel,parent) {
-        console.log('making panel')
-        // parent = "#" + parent;
         var panel = $('<div>')
             .attr('id', typeof(_panel.id) != 'undefined' ? _panel.id : "BLK_")
             .addClass((_panel.class) ? _panel.class : '')
@@ -74,8 +72,6 @@ var Layout = (function () {
         }
         if(_panel.border) {
             panel.css('border', _panel.border);
-
-            console.log('parent: ', parent);
         }
         panel.appendTo(parent);
     };
@@ -87,9 +83,7 @@ var Layout = (function () {
         _createPanel({id: 'actions', title: 'Actions'},'.locator');
 
         var slides = $('#viewSlider .view');
-        console.log('slide: ', slides);
         slides.on('activate', function(e) {
-            console.log('setting active');
             slides.eq(i).removeClass('active');
 
             $(e.target).addClass('active');
@@ -104,7 +98,6 @@ var Layout = (function () {
     function Layout() {};
 
     Layout.initialize = function () {
-        console.log('loading');
         Engine.loadJSON('js/app/resources/layout.json', _parseLayout);
     }
 

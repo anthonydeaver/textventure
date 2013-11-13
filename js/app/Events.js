@@ -5,15 +5,18 @@ var Events = (function() {
 	_monsterAttackTimer;
 
 	function startCombat() {
-		Engine.modal({title: 'Fight!', msg: _monster.msg, buttons: [{label: 'Attack', click: launchPlayerAttack}]})
+		Engine.modal({title: 'Fight!', msg: _monster.msg, buttons: [{label: 'Attack', click: launchPlayerAttack}]});
 		var desc = $('#message', Engine.activeModal());
 		createFighter(User, 'You').attr('id','player').appendTo(desc);
 		createFighter(_monster).attr('id','monster').appendTo(desc);
 
 		// Creates spped factor. _monster.speed is as 'fast' as a monster can move
-		var vector = Math.floor(Math.random() * ((_monster.speed * 2) - _monster.speed) + _monster.speed);
-		console.log('vector: ', vector);
+		var vector = getMonsterAttackSpeed();
 		_monsterAttackTimer = setTimeout(launchMonsterAttack, vector * 1000);
+	}
+
+	function getMonsterAttackSpeed(){
+		return Math.floor(Math.random() * ((_monster.speed * 2) - _monster.speed) + _monster.speed);
 	}
 
 	function createFighter(char, name) {
@@ -35,39 +38,57 @@ var Events = (function() {
 		if(_monster.hp <= 0) {
 			killMonster();
 		}
-	};
+	}
 
 	function launchMonsterAttack() {
-		console.log('monster attack');
-		var f = $('#player', Engine.activeModal());
-		User.takeDamage(1);
-		f.data('hp', User.hp);
-		updateFighter(f);
+		var f = $('#player', Engine.activeModal()),
+			banner = $('#banner', Engine.activeModal()),
+			dmg = 0,
+			succeed = (Math.random() > 0.5),
+			weapon = _monster.weapons[Math.floor(Math.random() * _monster.weapons.length)],
+			attackStr = '';
+
+		clearTimeout(_monsterAttackTimer);
+
+		// Math.floor((Math.random() * _monster.strength) + 1);
+		// First things first, determine the type of weapon
+		attackStr = weapon.attack.replace(/%s/g, _monster.name);
+		// Next, see if the monsters attack succeeds
+		// successfulAttack = (Math.random() > 0.5);
+
+		if (succeed) {
+			attackStr += " doing " + weapon.damage + " damage.";
+			User.takeDamage(weapon.damage);
+			f.data('hp', User.hp);
+			updateFighter(f);
+		} else {
+			attackStr += ", and misses.";
+		}
+
+		// pretty fade out/in
+		banner.fadeOut(function() {
+			$(this).text(attackStr).fadeIn();
+		});
 
 		if(User.hp <= 0) {
-			clearTimeout(_monsterAttackTimer);
-			killPlayer();
+			User.killUser();
 		} else {
 			// Creates spped factor. _monster.speed is as 'fast' as a monster can move
-			var vector = Math.floor(Math.random() * ((_monster.speed * 2) - _monster.speed) + _monster.speed);
-			console.log('vector: ', vector);
+			var vector = getMonsterAttackSpeed();
 			_monsterAttackTimer = setTimeout(launchMonsterAttack, vector * 1000);
 
 		}
-	};
-
-	function killMonster() {
-		console.log('monster dead!');
 	}
 
-	function killPlayer() {
-		console.log('player dead! Awww...');
+	function killMonster() {
+		clearTimeout(_monsterAttackTimer);
+		Monsters.killMonster(_monster);
 	}
 
 	function Events() {}
 
 	Events.triggerEvent = function(event) {
-		if(event.type === 'combat') Events.combat(event.enemy)
+		if (event.type === 'combat') { Events.combat(event.enemy); }
 	};
 
 	Events.combat = function(enemies) {
@@ -79,7 +100,7 @@ var Events = (function() {
 			return;
 		}
 		startCombat();
-	}
+	};
 
 	return Events;
 })();

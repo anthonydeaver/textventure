@@ -1,4 +1,4 @@
 User = (function(u) {
-	u.addSkill('Pottery',20);
+	u.acquireSkill({id: 'pottery', desc: 'Pottery', level: 20});
 	return u;
 })(User);
