@@ -2,23 +2,38 @@
 	"monsters": {
 		"goblin": {
 			"name" : "Goblin",
-			"loot" : "eye_of_holding",
 			"hp" : 10,
-			"strength":15,
+			"strength":5,
 			"skill" : 10,
 			"level" : 1,
-			"speed" : 4,
-			"msg" : "A Goblin appears from behind a stand of trees"
+			"speed" : 5,
+			"msg" : "A Goblin appears from behind a stand of trees",
+			"weapons" : [
+				{"name" : "hands" , "damage": 2, "attack" : "The %s takes a swing at you"},
+				{"name" : "axe" , "damage": 5, "attack" : "The %s swings his axe at you"},
+				{"name" : "shield" , "damage": 3, "attack" : "The %s smacks you with its shield"}
+			],
+			"loot" : [
+						{ "id" : "gold", "desc": "bag of Gold Coins", "amount" : 5, "chance" : 0.89},
+						{ "id" : "gold_key", "desc": "Golden Key", "chance" : 0.15, "limit" : 1}
+					]
 		},
 		"wolf": {
 			"name" : "Wolf",
-			"loot" : [{"coins": "10"}],
 			"hp" : 10,
-			"strength":15,
+			"strength":5,
 			"skill" : 10,
 			"level" : 1,
-			"speed": 2,
-			"msg" : "A Wolf stands before you, it's lips curled in a snarl."
+			"speed": 4,
+			"msg" : "A Wolf stands before you, it's lips curled in a snarl.",
+			"weapons" : [
+				{"name" : "claws" , "damage": 2, "attack" : "The %s takes a swipe at you"},
+				{"name" : "teeth" , "damage": 5, "attack" : "The %s tries to bite you"}
+			],
+			"loot" : [
+						{ "id" : "silver", "desc": " bag of Silver Coins", "amount" : 10, "chance" : 0.10},
+						{ "id" : "wolf_tooth", "desc": "Wolf's Tooth", "chance" : 0.50}
+					]
 		}
 	}
 }

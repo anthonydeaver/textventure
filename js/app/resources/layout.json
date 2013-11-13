@@ -52,17 +52,17 @@
 			"panels"		: [
 								{
 									"id" : "inventory",
-									"class": "grid_2",
+									"class": "grid_5",
 									"title" : "Inventory"
 								},
 								{
 									"id" : "stats",
-									"class": "grid_2",
+									"class": "grid_4",
 									"title" : "Stats"
 								},
 								{
 									"id" : "skills",
-									"class": "grid_2",
+									"class": "grid_5",
 									"title" : "Skills",
 									"onSelect":"User.activateSkill"
 								}

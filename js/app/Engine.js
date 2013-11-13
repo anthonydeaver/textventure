@@ -3,8 +3,8 @@ var Engine = (function() {
     var DEBUG = true,
         _console,
         _navPanel,
-        _modalPanel = $('<div>').attr('id', 'modal').addClass('eventPanel').css('opacity', '0'),
-        _terminal = $('#terminal');
+        _modalPanel = $('<div>').attr('id', 'modal').addClass('eventPanel').css('opacity', '0');
+        // _terminal = $('#terminal');
 
     function parseConfig(json) {
 
@@ -22,16 +22,13 @@ var Engine = (function() {
             $(this).closest('.panel').hide();
         });
 
-        $('<div>').addClass('title').appendTo(_modalPanel); 
+        $('<div>').addClass('title').appendTo(_modalPanel);
         $('<div>').attr('id', 'message').appendTo(_modalPanel);
         $('<div>').attr('id', 'buttons').appendTo(_modalPanel);
- 
 
-        User.initialize();
         Layout.initialize();
+        User.initialize();
         Monsters.initialize();
-        // Rooms.initialize();
-
     }
 
     function Engine() {}
@@ -64,11 +61,10 @@ var Engine = (function() {
         configurable: true
     });
 
-
-
     Engine.activeModal = function() {
         return _modalPanel;
-    }
+    };
+
     Engine.log = function(str) {
         if (DEBUG) {
             console.log('[TXTVENTURE]: ' + str);
@@ -113,25 +109,27 @@ var Engine = (function() {
     };
 
     Engine.modal = function(obj) {
-       $('#gameboard').append(_modalPanel);
+        $('#gameboard').append(_modalPanel);
 
-        $('.title', _modalPanel).empty();
-        $('#message', _modalPanel).empty();
-        $('#buttons', _modalPanel).empty();
+        Engine.clearModal();
 
-        var title = $('.title', _modalPanel);
-        var desc = $('#message', _modalPanel);
-        var btns = $('#buttons', _modalPanel);
+        var title = $('.title', _modalPanel),
+            desc = $('#message', _modalPanel),
+            btns = $('#buttons', _modalPanel),
+            buttons,
+            i;
 
         $('<h2>').text(obj.title).appendTo(title);
-        $('<p>').html(obj.msg).appendTo(desc);
+        $('<p>').attr('id','banner').html(obj.msg).appendTo(desc);
 
         _modalPanel.animate({opacity: 1}, 200, 'linear');
 
-        if(obj.buttons) {
-            var buttons = obj.buttons;
-            for (var i in buttons) {
-                Layout.button(buttons[i]).appendTo(btns);
+        if (obj.buttons) {
+            buttons = obj.buttons;
+            for (i in buttons) {
+                if (buttons.hasOwnProperty(i)) {
+                    Layout.button(buttons[i]).appendTo(btns);
+                }
             }
         } else {
             Layout.button({ label: 'OK', click: function() {  Engine.closeModal(); } }).appendTo(btns);
@@ -144,7 +142,13 @@ var Engine = (function() {
         _modalPanel.animate({opacity: 0}, 200, 'linear');
         _modalPanel.remove();
         // _modalPanel = null;
-    }
+    };
+
+    Engine.clearModal = function() {
+        $('.title', _modalPanel).empty();
+        $('#message', _modalPanel).empty();
+        $('#buttons', _modalPanel).empty();
+    };
 
     Engine.setLocation = function(location) {
         $('#terminal h2').text(location.name);
@@ -168,4 +172,8 @@ var Engine = (function() {
 
     return Engine;
 
-})();
+}());
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};

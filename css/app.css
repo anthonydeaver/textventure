@@ -129,6 +129,11 @@ div.panel h2, #event .title h2 {
 	margin: 0 auto;
 }
 
+#modal #banner {
+	height: 50px;
+	text-align: center
+}
+
 .eventPanel {
 	background: none repeat scroll 0 0 white;
 	border: 2px solid transparent;

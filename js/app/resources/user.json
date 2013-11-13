@@ -2,6 +2,6 @@
     "stats" : {
         "hp" : 20,
         "str" : 5,
-        "recovery" : 35
+        "recovery" : 5
     }
 }
