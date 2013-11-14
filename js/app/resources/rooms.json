@@ -6,7 +6,12 @@
 			"name" : "Tavern",
 			"desc" : "This is an abandoned tavern, you are standing in teh dining area",
 			"exits" : ["kitchen", "porch", "office_stairs"],
-			"actions": ["examine"]
+			"actions": ["examine"],
+			"extras" : [],
+			"items" : [
+						{"id" : "pack", "type": "item", "desc" : "Small Backpack", "maxItems" : 5},
+						{"id" : "flashlight", "type": "item", "desc" : "Flashlight"}
+					  ]
 		},
 		"office_stairs" : {
 			"id" : "office_stairs",
@@ -20,7 +25,10 @@
 			"name" : "Kitchen",
 			"desc" : "This is the kitchen",
 			"exits" : ["dining_room", "store_room"],
-			"actions": ["examine"]
+			"actions": ["examine"],
+			"items" : [
+						{"id" : "short_sword",  "type": "weapon", "desc" : "Short sword", "hands" : 1}
+					  ]
 		},
 		"porch" : {
 			"id" : "porch",

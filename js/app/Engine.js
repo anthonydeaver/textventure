@@ -100,11 +100,6 @@ var Engine = (function() {
     };
 
     Engine.popup = function(obj) {
-        // obj.buttons = [
-        //     {label: 'Yes'},
-        //     {label: 'No'}
-        // ];
-
         Engine.modal(obj);
     };
 

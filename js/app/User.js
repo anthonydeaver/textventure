@@ -4,6 +4,7 @@ var User = (function() {
         HIT_POINTS = 20,
         SKILL_SET = [], // Skills a User has acquired
         INVENTORY = [], // What User can pick from
+        INVENTORY_LIMIT = 0,
         ITEMS = [],     // What user is carrying. Emptied when death occurs
         // These are default stats. They can be modified by calling addStat()
         STATS = { strength: 10, fighting: 0, recovery: 0},
@@ -132,22 +133,31 @@ var User = (function() {
         configurable: true
     });
 
+    // Weappons Locker
+    User.aquireWeapon = function(item) {
+        console.log('holy carp!');
+    }
+
+    // INVENTORY control
     User.hasItem = function(id) {
         var item;
         for (var x in INVENTORY) {
             item = INVENTORY[x];
             if (item.id === id) {
-                console.log('return true');
                 return true;
             }
         }
-        console.log('return false');
         return false;
     };
 
     User.addItemToInventory = function(item) {
         var id = item.id,
             board ='';
+
+        if(id === "pack") {
+            User.dropItem(item);
+            INVENTORY_LIMIT = item.maxItems;
+        }
         if(item.amount) {
             board = $('#stats');
             MONEY[item.id] += item.amount;
@@ -158,6 +168,7 @@ var User = (function() {
             if(!User.hasItem(id)) {
                 board = $('#inventory');
                 item.quantity = 1;
+                if(User.tooManyItems()) { Engine.alert('You are carrying too many items. You must drop something before picking this up or find a larger pack.'); return false; }
                 INVENTORY.push(item);
                 $('<li>').attr('id',item.id).text(item.desc + " (" + item.quantity + ")").appendTo(board);
             } else {
@@ -166,6 +177,16 @@ var User = (function() {
         }
 
         updateStatsPanel();
+        return true;
+    };
+
+    User.tooManyItems = function() {
+        var x, cnt = 0;
+        for (x in INVENTORY) {
+            cnt += INVENTORY[x].quantity;
+        }
+        if(cnt >= INVENTORY_LIMIT) { return true; }
+        return false;
     };
 
     User.updateInventory = function(item) {
@@ -184,6 +205,16 @@ var User = (function() {
         }
         updateInventoryPanel();
     }
+
+    User.dropItem = function(item){
+        var x, cnt = 0;
+        for (x in INVENTORY) {
+            if(INVENTORY[x].id === item.id) {
+                delete INVENTORY[x];
+            }
+        }
+        updateInventoryPanel();
+    };
 
     User.travelTo = function(location) {
         if(CURRENT_LOCATION !== null) { PLACES.push(CURRENT_LOCATION); }
