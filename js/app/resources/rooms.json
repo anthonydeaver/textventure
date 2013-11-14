@@ -35,7 +35,7 @@
 			"desc" : "A small room filled with stuff",
 			"exits" : ["kitchen", "secret_stair"],
 			"locked" : true,
-			"lockedReqs" : "Golden Key"
+			"lockedReqs" : "gold_key"
 		},
 		"secret_stair" : {
 			"id": "secret_stair",
