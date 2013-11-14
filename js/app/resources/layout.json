@@ -17,7 +17,7 @@
 	"views" : [
 		{
 			"id" 			: "console",
-			"name" 			: "console",
+			"name" 			: "world",
 			"parent"		: "other",
 			"displayOrder"	: 1,
 			"panels"		: [

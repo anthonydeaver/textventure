@@ -101,31 +101,7 @@ var Layout = (function () {
         Engine.loadJSON('js/app/resources/layout.json', _parseLayout);
     }
 
-
-    Layout.addButtons = function(buttons) {
-        var btns,
-            func = function() { Engine.log("click"); };
-
-        for(var id in buttons) {
-            var config = buttons[id];
-
-             btns = $('#buttons', config.parent);
-
-            if (typeof(config.click) != 'undefined') {
-                func = config.click
-            }
-
-            var btn = $('<div>')
-                .attr('id', typeof(config.id) != 'undefined' ? config.id : "BTN_" + Engine.GUID())
-                .addClass('button')
-                .text(typeof(config.label) != 'undefined' ? config.label : "button")
-                .click(function() { 
-                    $(this).data("handler")($(this));
-                })
-                .data("handler",  func ).appendTo(btns);
-        }
-    }
-
+//Layout.button({ label: 'OK', click: function() {  Engine.closeModal(); } }).appendTo(btns);
     Layout.button = function(button) {
         var func = function() { Engine.log("click"); };
 
