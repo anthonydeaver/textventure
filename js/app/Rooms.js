@@ -19,7 +19,7 @@ var Rooms = (function() {
         var room = _rooms[rm],
             x;
 
-        if (room.locked) {
+        if (room.locked && !User.hasItem(room.lockedReqs)) {
             Engine.popup({title: 'Locked Room', msg: "That room is locked. You need to " + room.lockedReqs + " to access it."});
             return;
         }
