@@ -32,6 +32,9 @@ var Events = (function() {
 	function launchPlayerAttack() {
 		var f = $('#monster', Engine.activeModal());
 		_monster.hp -= 1;
+		var w = User.getWeapon();
+		console.log('weapon: ', w);
+		_monster.hp -= w.damage;
 		f.data('hp', _monster.hp);
 		updateFighter(f);
 

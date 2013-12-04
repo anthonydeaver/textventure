@@ -27,7 +27,7 @@
 			"exits" : ["dining_room", "store_room"],
 			"actions": ["examine"],
 			"items" : [
-						{"id" : "short_sword",  "type": "weapon", "desc" : "Short Sword", "hands" : 2}
+						{"id" : "short_sword",  "type": "weapon", "desc" : "Short Sword", "hands" : 2, "damage" : 5}
 					  ]
 		},
 		"porch" : {
@@ -58,7 +58,7 @@
 			"desc" : "You are in a small field filled with giant Sunflowers",
 			"exits" : ["porch","large_field"],
 			"items" : [
-						{"id" : "wodden_staff",  "type": "weapon", "desc" : "Wooden Staff", "hands" : 2}
+						{"id" : "wodden_staff",  "type": "weapon", "desc" : "Wooden Staff", "hands" : 2, "damage": 3}
 					  ]
 
 		},

@@ -10,7 +10,7 @@ var User = (function() {
         STATS = { strength: 10, fighting: 0, recovery: 0},
         // There are no default skills. They can be modified by calling addSkill()
         SKILLS = {},
-        WEAPONS = {},
+        WEAPON = {},
         EXP_POINTS = 0,
         LOCATION = {},
         PLACES = [],
@@ -93,7 +93,7 @@ var User = (function() {
         var locale = PLACES[0];
         Engine.closeModal();
         Rooms.loadRoom(locale.id);
-        WEAPONS = {};
+        WEAPON = {};
         ITEMS = [];
         PLACES = [];
         CURRENT_LOCATION = locale;
@@ -137,8 +137,8 @@ var User = (function() {
         if(item.hands === 2) {
             // Only allowed to carry a single two handed weapon
             // // FIrst check slotted weapons
-            for(var k in WEAPONS) {
-                if(WEAPONS[k].hands === 2) {
+            for(var k in WEAPON) {
+                if(WEAPON[k].hands === 2) {
                     Engine.modal({
                         title: '', 
                         msg: "Sorry, you are only allowed to carry a single two-handed weapon You must drop the " + INVENTORY[k].desc + " first.", 
@@ -180,6 +180,13 @@ var User = (function() {
         User.dropItem(weapon);
         Engine.closeModal();
     };
+
+    User.getWeapon = function() {
+        console.log('WEAPON: ', WEAPON);
+        if(WEAPON.damage == undefined) { 
+            return {"id" : "hands",  "type": "weapon", "desc" : "hands", "hands" : 1, "damage" : 1}; 
+        }
+    }
 
     // INVENTORY control
     User.hasItem = function(id) {
