@@ -4,7 +4,7 @@ var User = (function() {
         HIT_POINTS = 20,
         SKILL_SET = [], // Skills a User has acquired
         INVENTORY = [], // What User can pick from
-        INVENTORY_LIMIT = 0,
+        INVENTORY_LIMIT = 2,
         ITEMS = [],     // What user is carrying. Emptied when death occurs
         // These are default stats. They can be modified by calling addStat()
         STATS = { strength: 10, fighting: 0, recovery: 0},
@@ -104,8 +104,6 @@ var User = (function() {
         // this.initialize.apply(this, arguments);
     };
 
-    User.name = "You";
-
     Object.defineProperty(User, "hp", {
         get: function () {
             return HIT_POINTS;
@@ -114,7 +112,7 @@ var User = (function() {
         configurable: true
     });
 
-    Object.defineProperty(Engine, "exp", {
+    Object.defineProperty(User, "exp", {
         set: function (x) {
             EXP_POINTS += x;
         },
@@ -133,10 +131,55 @@ var User = (function() {
         configurable: true
     });
 
-    // Weappons Locker
+    // Weapons Locker
     User.aquireWeapon = function(item) {
         console.log('holy carp!');
+        if(item.hands === 2) {
+            // Only allowed to carry a single two handed weapon
+            // // FIrst check slotted weapons
+            for(var k in WEAPONS) {
+                if(WEAPONS[k].hands === 2) {
+                    Engine.modal({
+                        title: '', 
+                        msg: "Sorry, you are only allowed to carry a single two-handed weapon You must drop the " + INVENTORY[k].desc + " first.", 
+                        buttons: [
+                            {label: 'Drop ' + INVENTORY[k].desc, click: function() { User.dropWeapon(INVENTORY[k])}},
+                            {label: 'OK', click: function() {  Engine.closeModal(); } }
+                        ]
+                    });
+                    return false;
+                }
+            }
+            // Next, check INVENTORY in case it isn't equiped
+            for(var k in INVENTORY) {
+                if(INVENTORY[k].type === 'weapon' && INVENTORY[k].hands === 2) {
+                    Engine.modal({
+                        title: '', 
+                        msg: "Sorry, you are only allowed to carry a single two-handed weapon You must drop the " + INVENTORY[k].desc + " first.", 
+                        buttons: [
+                            {label: 'Drop ' + INVENTORY[k].desc, click: function() { User.dropWeapon(INVENTORY[k])}},
+                            {label: 'OK', click: function() {  Engine.closeModal(); } }
+                        ]
+                    });
+                    return false;
+                }
+            }
+
+        }
+        User.addItemToInventory(item);
+        return true;
     }
+    User.equipWeapon = function(weapon) {
+        // This works like so:
+        // User can carry one two-handed weapon or multi one handed weapons but can only use two at a time
+        // i.e. Short sword and nunchucks.
+    };
+
+    User.dropWeapon = function(weapon) {
+        console.log('dropping: ', weapon);
+        User.dropItem(weapon);
+        Engine.closeModal();
+    };
 
     // INVENTORY control
     User.hasItem = function(id) {

@@ -27,7 +27,7 @@
 			"exits" : ["dining_room", "store_room"],
 			"actions": ["examine"],
 			"items" : [
-						{"id" : "short_sword",  "type": "weapon", "desc" : "Short sword", "hands" : 1}
+						{"id" : "short_sword",  "type": "weapon", "desc" : "Short Sword", "hands" : 2}
 					  ]
 		},
 		"porch" : {
@@ -41,23 +41,26 @@
 			"id": "store_room",
 			"name" : "Store Room",
 			"desc" : "A small room filled with stuff",
-			"exits" : ["kitchen", "secret_stair"],
-			"locked" : true,
-			"lockedReqs" : "gold_key"
+			"exits" : ["kitchen", "secret_stair"]
 		},
 		"secret_stair" : {
 			"id": "secret_stair",
-			"name" : "Secret Lair",
+			"name" : "Secret Stair",
 			"desc" : "A hidden stair case going down",
 			"exits" : ["store_room"],
 			"hidden" : true,
-			"hiddenReqs" : "eye_of_holding"
+			"hiddenReqs" : "flashlight",
+			"hiddenDesc":"As you pan the flashlight around the room you notice a small ring set into the floor. Pulling on it reveals a trap door with a hidden staircase beneath."
 		},
 		"small_field" : {
 			"id" : "small_field",
 			"name" : "Small Field",
 			"desc" : "You are in a small field filled with giant Sunflowers",
-			"exits" : ["porch","large_field"]
+			"exits" : ["porch","large_field"],
+			"items" : [
+						{"id" : "wodden_staff",  "type": "weapon", "desc" : "Wooden Staff", "hands" : 2}
+					  ]
+
 		},
 		"large_field" : {
 			"id" : "large_field",

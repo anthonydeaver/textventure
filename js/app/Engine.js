@@ -90,7 +90,6 @@ var Engine = (function() {
     };
 
     Engine.init = function() {
-
         Engine.loadJSON('js/app/resources/app.json', parseConfig);
     };
 
@@ -99,9 +98,9 @@ var Engine = (function() {
         Engine.modal({title: 'Alert',msg: msg });
     };
 
-    Engine.popup = function(obj) {
-        Engine.modal(obj);
-    };
+    // Engine.popup = function(obj) {
+    //     Engine.modal(obj);
+    // };
 
     Engine.modal = function(obj) {
         $('#gameboard').append(_modalPanel);
@@ -133,6 +132,7 @@ var Engine = (function() {
     };
 
     Engine.closeModal = function() {
+        console.log('closing');
         // _modalPanel = _modalPanel;
         _modalPanel.animate({opacity: 0}, 200, 'linear');
         _modalPanel.remove();

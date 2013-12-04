@@ -21,7 +21,7 @@ div.button, div.navButton {
 	position: relative;
 	text-align: center;
 	border: 1px solid black;
-	width: 100px;
+	min-width: 100px;
 	height: 25px;
 	margin-bottom: 5px;
 	padding: 7px 10px 3px 10px;

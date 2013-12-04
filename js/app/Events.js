@@ -7,8 +7,8 @@ var Events = (function() {
 	function startCombat() {
 		Engine.modal({title: 'Fight!', msg: _monster.msg, buttons: [{label: 'Attack', click: launchPlayerAttack}]});
 		var desc = $('#message', Engine.activeModal());
-		createFighter(User, 'You').attr('id','player').appendTo(desc);
-		createFighter(_monster).attr('id','monster').appendTo(desc);
+		createCombatant(User, 'You').attr('id','player').appendTo(desc);
+		createCombatant(_monster).attr('id','monster').appendTo(desc);
 
 		// Creates spped factor. _monster.speed is as 'fast' as a monster can move
 		var vector = getMonsterAttackSpeed();
@@ -19,7 +19,7 @@ var Events = (function() {
 		return Math.floor(Math.random() * ((_monster.speed * 2) - _monster.speed) + _monster.speed);
 	}
 
-	function createFighter(char, name) {
+	function createCombatant(char, name) {
 		var fighter = $('<div>').addClass('fighter').text(name || char.name).data('hp', char.hp).data('fighter',char).data('maxHP',char.hp);
 		$('<div>').addClass('hp').text(char.hp+'/'+char.hp).appendTo(fighter);
 		return fighter;

@@ -1,0 +1,9 @@
+{
+	"items" : {
+		"short_sword" : { "type": "weapon", "desc" : "Short Sword", "hands" : 2},
+		"wodden_staff": { "type": "weapon", "desc" : "Wooden Staff", "hands" : 2},
+
+		"pack": { "type": "item", "desc" : "Small Backpack", "maxItems" : 5},
+		"flashlight": { "type": "item", "desc" : "Flashlight"}
+	}
+}
