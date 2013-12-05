@@ -12,7 +12,6 @@ var User = (function() {
         SKILLS = {},
         WEAPON = {},
         EXP_POINTS = 0,
-        LOCATION = {},
         PLACES = [],
         MONEY = {"gold" : 0, "silver" : 0, "bronze" : 0},
         CURRENT_LOCATION = null;
@@ -66,7 +65,14 @@ var User = (function() {
         item = $('<ul>');
         for(var e in INVENTORY) {
             entry = INVENTORY[e];
-            item.append($('<li>').addClass(entry.id).text(entry.desc + " (" + entry.quantity + ")"));
+            var li = $('<li>').addClass(entry.id).text(entry.desc + " (" + entry.quantity + ")");
+            li.append($('<a>').css('text-decoration','underline').text('drop').on('click', function(e) {
+                e.stopPropagation(); 
+                e.preventDefault(); 
+
+                User.dropItem(entry);
+            }));
+            item.append(li);
         }
         
         item.appendTo(board);
@@ -212,21 +218,17 @@ var User = (function() {
             board = $('#stats');
             MONEY[item.id] += item.amount;
 
-            // var c = $('.' + item.id, board);
-            // c.text(item.id.capitalize() + ": " + MONEY[item.id]);
+            updateStatsPanel();
         } else {
             if(!User.hasItem(id)) {
-                board = $('#inventory');
-                item.quantity = 1;
+                item.quantity = 0;
                 if(User.tooManyItems()) { Engine.alert('You are carrying too many items. You must drop something before picking this up or find a larger pack.'); return false; }
                 INVENTORY.push(item);
-                $('<li>').attr('id',item.id).text(item.desc + " (" + item.quantity + ")").appendTo(board);
             } else {
-                User.updateInventory(item);
             }
+            User.updateInventory(item);
         }
 
-        updateStatsPanel();
         return true;
     };
 
@@ -246,7 +248,6 @@ var User = (function() {
         for (var x in INVENTORY) {
             var entry = INVENTORY[x];
             if (entry.id === id) {
-                console.log('found item');
                 if(entry.limit && entry.quantity >= entry.limit) { console.log('can only have one ' + entry.id); return; }
                 entry.quantity += 1;
                 // var e = $('#' + entry.id, pack);
@@ -260,6 +261,7 @@ var User = (function() {
         var x, cnt = 0;
         for (x in INVENTORY) {
             if(INVENTORY[x].id === item.id) {
+                Rooms.addItemToRoom(CURRENT_LOCATION,item);
                 delete INVENTORY[x];
             }
         }
@@ -304,7 +306,7 @@ var User = (function() {
         Engine.log('STATS: '+ JSON.stringify(STATS));
         Engine.log('SLILLS: '+ JSON.stringify(SKILLS));
         Engine.log('PLACES: ' + JSON.stringify(PLACES));
-        Engine.log('CURRENT_LOCATION: ' + CURRENT_LOCATION);
+        Engine.log('CURRENT_LOCATION: ' + JSON.stringify(CURRENT_LOCATION));
         Engine.log('EXP: ' + JSON.stringify(EXP_POINTS));
         Engine.log('INVENTORY: ' + JSON.stringify(INVENTORY));
         Engine.log('MONEY: ' + JSON.stringify(MONEY));

@@ -16,6 +16,7 @@ var Rooms = (function() {
     };
 
     Rooms.loadRoom = function(rm) {
+        console.log('rm: ', rm);
         var room = _rooms[rm],
             x, item;
 
@@ -87,6 +88,12 @@ var Rooms = (function() {
             }
         }
         room.items = tmp;
+    }
+
+    Rooms.addItemToRoom = function(room, item) {
+        console.log('room: ', room);
+        room.items.push(item);
+        Rooms.loadRoom(room.id);
     }
 
     return Rooms;
